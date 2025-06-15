@@ -34,6 +34,12 @@ then
 	exit 1
 fi
 
+if [ -z "$PHP_CACHE_ARCH" ]
+then
+	echo "Error: PHP_CACHE_ARCH variable not set"
+	exit 1
+fi
+
 # The dockerfile is created in-memory and written to disk at the end of this script.
 # Below, depending on the Action's inputs, more lines may be written to this dockerfile.
 # Zip and git are required for Composer to work correctly.
@@ -73,7 +79,7 @@ do
 	dockerfile="${dockerfile} $ext"
 	dockerfile_unique="${dockerfile_unique}-${ext}"
 done
-dockerfile_unique="${dockerfile_unique}-${php_build_version}"
+dockerfile_unique="${dockerfile_unique}-${php_build_version}-${PHP_CACHE_ARCH}"
 
 # Remove illegal characters and make lowercase:
 GITHUB_REPOSITORY="${GITHUB_REPOSITORY,,}"
